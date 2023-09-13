@@ -23,7 +23,7 @@ pipeline {
         stage ("Test stage") {
             steps {
                 script {
-                    sh "cd app && npm test"
+                    sh "cd my-app && npm test"
                 }
             }
         }
