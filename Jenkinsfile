@@ -23,7 +23,7 @@ pipeline {
         stage ("Test stage") {
             steps {
                 script {
-                    sh "cd my-app && npm test"
+                    sh "cd ${env.WORKSPACE} && npm test"
                 }
             }
         }
