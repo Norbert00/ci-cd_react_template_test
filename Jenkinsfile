@@ -18,39 +18,40 @@ pipeline {
         ARTIFACT_VERSION = "${BUILD_NUMBER}"
     }
     stages {
-        stage ("Install dependencies") {
+        stage("Install dependencies") {
             steps {
                 script {
                     sh "npm install"
                 }
             }
         }
-        stage ("Test stage") {
+        stage("Test stage") {
             steps {
                 script {
                     sh "npm test"
                 }
             }
         }
-        stage ("Build package") {
+        stage("Build package") {
             steps {
                 script {
                     sh "npm run build"
                 }
             }
         }
-        stage ("Pack build") {
+        stage("Pack build") {
             steps {
                 script {
                     // Define the file path you want to check
                     def filePath = "${env.WORKSPACE}/build"
+
                     // Use the test command to check if the file exists
                     if (fileExists(filePath)) {
                         echo "File 'build' exists."
                         sh "tar -czvf build.tar.gz ${filePath}/build"
-
-                } else {
+                    } else {
                         error "File 'build' does not exist."
+                    }
                 }
             }
         }
