@@ -21,25 +21,32 @@ pipeline {
         stage ("Install dependencies") {
             steps {
                 script {
-                    // sh "cd ${env.WORKSPACE}/ci-cd_react_template_test && npm install"
-                    sh "cd ${env.WORKSPACE} && ls -al"
+                    sh "npm install"
+                    //sh "cd ${env.WORKSPACE} && ls -al"
                 }
             }
         }
-        // stage ("Test stage") {
-        //     steps {
-        //         script {
-        //             sh "npm test"
-        //         }
-        //     }
-        // }
-        // stage ("Build package") {
-        //     steps {
-        //         script {
-        //             sh "npm run build"
-        //         }
-        //     }
-        // }
+        stage ("Test stage") {
+            steps {
+                script {
+                    sh "npm test"
+                }
+            }
+        }
+        stage ("Build package") {
+            steps {
+                script {
+                    sh "npm run build"
+                }
+            }
+        }
+                stage ("List dir") {
+            steps {
+                script {
+                    sh "ls -al"
+                }
+            }
+        }
         // stage ("Upload package to nexus") {
         //     steps {
         //         script {
