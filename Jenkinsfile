@@ -39,10 +39,18 @@ pipeline {
                 }
             }
         }
-        stage ("List dir") {
+        stage ("Pack build") {
             steps {
                 script {
-                    sh "ls -al"
+                    // Define the file path you want to check
+                    def filePath = "${env.WORKSPACE}/build"
+                    // Use the test command to check if the file exists
+                    if (fileExists(filePath)) {
+                        echo "File 'build' exists."
+                        sh "tar -czvf build.tar.gz ${filePath}/build"
+
+                } else {
+                        error "File 'build' does not exist."
                 }
             }
         }
