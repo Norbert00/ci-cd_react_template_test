@@ -18,12 +18,14 @@ pipeline {
         ARTIFACT_VERSION = "${BUILD_NUMBER}"
     }
     stages {
-        stage ("Test stage") {
+        stage ("Install dependencies") {
             steps {
                 script {
                     sh "cd ${env.WORKSPACE}/ci-cd_react_template_test && npm install"
                 }
             }
+        }
+        stage ("Test stage") {
             steps {
                 script {
                     sh "npm test"
