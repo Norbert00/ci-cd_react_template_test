@@ -17,9 +17,7 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "jenkins_nexus"
         ARTIFACT_VERSION = "${BUILD_NUMBER}"
     }
-
     stages {
-
         stage ("Test stage") {
             steps {
                 script {
@@ -32,7 +30,6 @@ pipeline {
                 }
             }
         }
-
         stage ("Build package") {
             steps {
                 script {
@@ -40,7 +37,6 @@ pipeline {
                 }
             }
         }
-
         stage ("Upload package to nexus") {
             steps {
                 script {
