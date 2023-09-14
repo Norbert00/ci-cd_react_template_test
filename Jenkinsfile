@@ -48,7 +48,7 @@ pipeline {
                     // Use the test command to check if the file exists
                     if (fileExists(filePath)) {
                         echo "File 'build' exists."
-                        sh "tar -czvf build.tar.gz ${filePath}/build"
+                        sh "tar -czvf build.tar.gz ${filePath}"
                     } else {
                         error "File 'build' does not exist."
                     }
