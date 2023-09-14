@@ -21,37 +21,38 @@ pipeline {
         stage ("Install dependencies") {
             steps {
                 script {
-                    sh "cd ${env.WORKSPACE}/ci-cd_react_template_test && npm install"
+                    // sh "cd ${env.WORKSPACE}/ci-cd_react_template_test && npm install"
+                    sh "cd ${env.WORKSPACE} && ls -al"
                 }
             }
         }
-        stage ("Test stage") {
-            steps {
-                script {
-                    sh "npm test"
-                }
-            }
-        }
-        stage ("Build package") {
-            steps {
-                script {
-                    sh "npm run build"
-                }
-            }
-        }
-        stage ("Upload package to nexus") {
-            steps {
-                script {
-                    nexusArtifactUploader(
-                            nexusVersion: NEXUS_VERSION,
-                            protocol: NEXUS_PROTOCOL,
-                            nexusUrl: NEXUS_URL,
-                            version: ARTIFACT_VERSION,
-                            repository: NEXUS_REPOSITORY,
-                            credentialsId: NEXUS_CREDENTIAL_ID,
-                    )
-                }
-            }
-        }
+        // stage ("Test stage") {
+        //     steps {
+        //         script {
+        //             sh "npm test"
+        //         }
+        //     }
+        // }
+        // stage ("Build package") {
+        //     steps {
+        //         script {
+        //             sh "npm run build"
+        //         }
+        //     }
+        // }
+        // stage ("Upload package to nexus") {
+        //     steps {
+        //         script {
+        //             nexusArtifactUploader(
+        //                     nexusVersion: NEXUS_VERSION,
+        //                     protocol: NEXUS_PROTOCOL,
+        //                     nexusUrl: NEXUS_URL,
+        //                     version: ARTIFACT_VERSION,
+        //                     repository: NEXUS_REPOSITORY,
+        //                     credentialsId: NEXUS_CREDENTIAL_ID,
+        //             )
+        //         }
+        //     }
+        // }
     }
 }
