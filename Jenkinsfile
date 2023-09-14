@@ -5,7 +5,7 @@ pipeline {
         }
     }
     environment {
-                // This can be nexus3 or nexus2
+        // This can be nexus3 or nexus2
         NEXUS_VERSION = "nexus3"
         // This can be http or https
         NEXUS_PROTOCOL = "https"
@@ -22,7 +22,6 @@ pipeline {
             steps {
                 script {
                     sh "npm install"
-                    //sh "cd ${env.WORKSPACE} && ls -al"
                 }
             }
         }
@@ -40,19 +39,21 @@ pipeline {
                 }
             }
         }
-                stage ("List dir") {
+        stage ("List dir") {
             steps {
                 script {
                     sh "ls -al"
                 }
             }
         }
-
-        post {
-            always {
-                cleanWs()
-            }
+    }
+    post {
+        always {
+            cleanWs()
         }
+    }
+}
+
         // stage ("Upload package to nexus") {
         //     steps {
         //         script {
@@ -68,5 +69,3 @@ pipeline {
         //     }
         // }
         
-    }
-}
