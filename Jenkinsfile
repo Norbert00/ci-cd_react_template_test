@@ -47,6 +47,12 @@ pipeline {
                 }
             }
         }
+
+        post {
+            always {
+                cleanWs()
+            }
+        }
         // stage ("Upload package to nexus") {
         //     steps {
         //         script {
@@ -61,5 +67,6 @@ pipeline {
         //         }
         //     }
         // }
+        
     }
 }
