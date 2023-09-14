@@ -23,7 +23,12 @@ pipeline {
         stage ("Test stage") {
             steps {
                 script {
-                    sh "cd ${env.WORKSPACE} && npm test"
+                    sh "cd ${env.WORKSPACE}/ci-cd_react_template_test && npm install"
+                }
+            }
+            steps {
+                script {
+                    sh "npm test"
                 }
             }
         }
