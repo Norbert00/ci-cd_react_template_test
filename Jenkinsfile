@@ -25,7 +25,7 @@ pipeline {
                 }
             }
         }
-        stage("Test stage") {
+        stage("Tests") {
             steps {
                 script {
                     sh "npm test"
@@ -39,7 +39,7 @@ pipeline {
                 }
             }
         }
-        stage("Pack build") {
+        stage("Compile build") {
             steps {
                 script {
                     // Define the file path you want to check
