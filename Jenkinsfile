@@ -49,23 +49,23 @@ pipeline {
                     if (fileExists(filePath)) {
                         echo "File 'build' exists."
                         sh "tar -czvf build.tar.gz ${filePath}"
-                    } else {
-                        error "File 'build' does not exist."
-                    }
-                }
-            }
-        }
-        stage ("Upload package to nexus") {
-            steps {
-                script {
-                    nexusArtifactUploader(
+                        echo "File ${filePath} packed"
+                        
+                        nexusArtifactUploader(
                             nexusVersion: NEXUS_VERSION,
                             protocol: NEXUS_PROTOCOL,
                             nexusUrl: NEXUS_URL,
                             version: ARTIFACT_VERSION,
                             repository: NEXUS_REPOSITORY,
                             credentialsId: NEXUS_CREDENTIAL_ID,
-                    )
+                            // groupId: 'your.group.id', // Replace with your actual group ID
+                            // artifactId: 'your-artifact-id', // Replace with your actual artifact ID
+                            // packaging: 'tar.gz',
+                            file: "${filePath}/build.tar.gz"
+                        )
+                    } else {
+                        error "File 'build' does not exist."
+                    }
                 }
             }
         }
