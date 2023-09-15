@@ -59,6 +59,9 @@ pipeline {
                             version: ARTIFACT_VERSION,
                             repository: NEXUS_REPOSITORY,
                             credentialsId: NEXUS_CREDENTIAL_ID,
+                            artifacts: [
+                                [artifactId: '0.1.1', classifier: '', file: ${filePath}, type: 'tar.gz']
+                            ]
                             // groupId: 'your.group.id', // Replace with your actual group ID
                             // artifactId: 'your-artifact-id', // Replace with your actual artifact ID
                             // packaging: 'tar.gz',
