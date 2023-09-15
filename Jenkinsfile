@@ -55,6 +55,20 @@ pipeline {
                 }
             }
         }
+        stage ("Upload package to nexus") {
+            steps {
+                script {
+                    nexusArtifactUploader(
+                            nexusVersion: NEXUS_VERSION,
+                            protocol: NEXUS_PROTOCOL,
+                            nexusUrl: NEXUS_URL,
+                            version: ARTIFACT_VERSION,
+                            repository: NEXUS_REPOSITORY,
+                            credentialsId: NEXUS_CREDENTIAL_ID,
+                    )
+                }
+            }
+        }
     }
     post {
         always {
