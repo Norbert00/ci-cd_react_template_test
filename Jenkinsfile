@@ -50,6 +50,7 @@ pipeline {
                         echo "File 'build' exists."
                         sh "tar -czvf build.tar.gz ${filePath}"
                         echo "File ${filePath} packed"
+                        sh "ls -al"
                         
                         nexusArtifactUploader(
                             nexusVersion: NEXUS_VERSION,
@@ -61,7 +62,7 @@ pipeline {
                             // groupId: 'your.group.id', // Replace with your actual group ID
                             // artifactId: 'your-artifact-id', // Replace with your actual artifact ID
                             // packaging: 'tar.gz',
-                            file: "${filePath}/build.tar.gz"
+                            //file: "${filePath}/build.tar.gz"
                         )
                     } else {
                         error "File 'build' does not exist."
