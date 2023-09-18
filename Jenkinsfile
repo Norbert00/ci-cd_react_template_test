@@ -76,7 +76,7 @@ pipeline {
                     ]
                 ], 
                         credentialsId: NEXUS_CREDENTIAL_ID, 
-                        groupId: 'react_app', 
+                        groupId: 'cra-template-test-app', 
                         nexusUrl: NEXUS_URL, 
                         nexusVersion: NEXUS_VERSION, 
                         protocol: NEXUS_PROTOCOL, 
