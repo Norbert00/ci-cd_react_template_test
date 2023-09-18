@@ -8,7 +8,7 @@ pipeline {
         // This can be nexus3 or nexus2
         NEXUS_VERSION = "nexus3"
         // This can be http or https
-        NEXUS_PROTOCOL = "https"
+        NEXUS_PROTOCOL = "http"
         // Where your Nexus is running
         NEXUS_URL = "nexus.n00dns.co"
         // Repository where we will upload the artifact
@@ -52,17 +52,36 @@ pipeline {
                         echo "File ${filePath} packed"
                         sh "ls -al"
                         
-                         step([$class: 'NexusArtifactUploader', nexusVersion: NEXUS_VERSION,
-                            protocol: NEXUS_PROTOCOL, nexusUrl: NEXUS_URL, version: ARTIFACT_VERSION,
-                            repository: NEXUS_REPOSITORY, credentialsId: NEXUS_CREDENTIAL_ID,
-                            artifacts: [
-                                [artifactId: '0.1.1', classifier: '', file: filePath, type: 'tar.gz']
-                            ]
-                        ])
+                        //  step([$class: 'NexusArtifactUploader', nexusVersion: NEXUS_VERSION,
+                        //     protocol: NEXUS_PROTOCOL, nexusUrl: NEXUS_URL, version: ARTIFACT_VERSION,
+                        //     repository: NEXUS_REPOSITORY, credentialsId: NEXUS_CREDENTIAL_ID,
+                        //     artifacts: [
+                        //         [artifactId: 'build', classifier: '', file: filePath, type: 'tar.gz']
+                        //     ]
+                        // ])
                     } else {
                         error "File 'build' does not exist."
                     }
                 }
+            }
+        }
+        stage("Upload build to Nexus") {
+            steps {
+                nexusArtifactUploader artifacts: [
+                    [
+                        artifactId: 'build', 
+                        classifier: '', 
+                        file: '/home/ec2-user/workspace/react-template-app/build.tar.gz', 
+                        type: 'tar.gz'
+                    ]
+                ], 
+                        credentialsId: NEXUS_CREDENTIAL_ID, 
+                        groupId: 'react_app', 
+                        nexusUrl: NEXUS_URL, 
+                        nexusVersion: NEXUS_VERSION, 
+                        protocol: NEXUS_PROTOCOL, 
+                        repository: NEXUS_REPOSITORY, 
+                        version: '0.0.1'
             }
         }
     }
