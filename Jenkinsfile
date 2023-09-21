@@ -82,7 +82,7 @@ pipeline {
                         nexusVersion: NEXUS_VERSION, 
                         protocol: NEXUS_PROTOCOL, 
                         repository: NEXUS_REPOSITORY, 
-                        version: '0.1.1'
+                        version: ''
             }
         }
     }
