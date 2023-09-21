@@ -69,9 +69,9 @@ pipeline {
                         def artifact = [
                             groupId: NPM_PACKAGE_NAME,
                             artifactId: NPM_PACKAGE_NAME
-                            version: NPM_PACKAGE_VERSION
+                            //version: NPM_PACKAGE_VERSION
                             packaging: "tgz"
-                            file: "${NPM_PACKAGE_NAME}-${NPM_PACKAGE_VERSION}.tgz"
+                            file: "${NPM_PACKAGE_NAME}.tgz"
 
                         ]
                     } else {
