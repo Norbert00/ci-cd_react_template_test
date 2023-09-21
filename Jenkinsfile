@@ -53,12 +53,12 @@ pipeline {
                         echo "File ${filePath} packed"
                         sh "ls -al"
                         
-                         step([$class: 'NexusArtifactUploader', nexusVersion: NEXUS_VERSION,
-                            protocol: NEXUS_PROTOCOL, nexusUrl: NEXUS_URL, version: ARTIFACT_VERSION,
-                            repository: NEXUS_REPOSITORY, credentialsId: NEXUS_CREDENTIAL_ID,
-                            artifacts: [
-                                [artifactId: 'build', classifier: '', file: filePath, type: 'tar.gz']
-                            ]])
+                        //  step([$class: 'NexusArtifactUploader', nexusVersion: NEXUS_VERSION,
+                        //     protocol: NEXUS_PROTOCOL, nexusUrl: NEXUS_URL, version: ARTIFACT_VERSION,
+                        //     repository: NEXUS_REPOSITORY, credentialsId: NEXUS_CREDENTIAL_ID,
+                        //     artifacts: [
+                        //         [artifactId: 'build', classifier: '', file: filePath, type: 'tar.gz']
+                        //     ]])
                         
                     } else {
                         error "File 'build' does not exist."
