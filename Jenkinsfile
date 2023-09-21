@@ -12,7 +12,8 @@ pipeline {
         // Where your Nexus is running
         NEXUS_URL = "nexus.n00dns.co"
         // Repository where we will upload the artifact
-        NEXUS_REPOSITORY = "react_app_npm_group_repo"
+        //NEXUS_REPOSITORY = "react_app_npm_group_repo"
+        NEXUS_REPOSITORY = "/react_app_npm_group_repo/cra-template-test-app/"
         // Jenkins credential id to authenticate to Nexus OSS
         NEXUS_CREDENTIAL_ID = "jenkins_nexus"
         ARTIFACT_VERSION = "${BUILD_NUMBER}"
