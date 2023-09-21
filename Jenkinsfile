@@ -70,7 +70,7 @@ pipeline {
             steps {
                 nexusArtifactUploader artifacts: [
                     [
-                        artifactId: '', 
+                        artifactId: 'build', 
                         classifier: '', 
                         file: '/home/ec2-user/workspace/react-template-app/build.tar.gz', 
                         type: 'tar.gz'
@@ -82,7 +82,7 @@ pipeline {
                         nexusVersion: NEXUS_VERSION, 
                         protocol: NEXUS_PROTOCOL, 
                         repository: NEXUS_REPOSITORY, 
-                        version: ''
+                        version: '0.0.1'
             }
         }
     }
