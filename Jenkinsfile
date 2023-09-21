@@ -70,7 +70,7 @@ pipeline {
             steps {
                 nexusArtifactUploader artifacts: [
                     [
-                        artifactId: '', 
+                        artifactId: 'react-app', 
                         classifier: '', 
                         file: "${env.WORKSPACE}/build.tgz", 
                         type: 'tgz'
