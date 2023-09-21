@@ -5,14 +5,15 @@ pipeline {
         }
     }
     environment {
-        // This can be nexus3 or nexus2
+        //This can be nexus3 or nexus2
         NEXUS_VERSION = "nexus3"
         // This can be http or https
         NEXUS_PROTOCOL = "https"
         // Where your Nexus is running
         NEXUS_URL = "nexus.n00dns.co"
         // Repository where we will upload the artifact
-        NEXUS_REPOSITORY = "react_app_npm_hosted_repo"
+        //NEXUS_REPOSITORY = "react_app_npm_group_repo"
+        NEXUS_REPOSITORY = "react_app_npm_group_repo"
         // Jenkins credential id to authenticate to Nexus OSS
         NEXUS_CREDENTIAL_ID = "jenkins_nexus"
         ARTIFACT_VERSION = "${BUILD_NUMBER}"
@@ -52,13 +53,13 @@ pipeline {
                         echo "File ${filePath} packed"
                         sh "ls -al"
                         
-                        //  step([$class: 'NexusArtifactUploader', nexusVersion: NEXUS_VERSION,
-                        //     protocol: NEXUS_PROTOCOL, nexusUrl: NEXUS_URL, version: ARTIFACT_VERSION,
-                        //     repository: NEXUS_REPOSITORY, credentialsId: NEXUS_CREDENTIAL_ID,
-                        //     artifacts: [
-                        //         [artifactId: 'build', classifier: '', file: filePath, type: 'tar.gz']
-                        //     ]
-                        // ])
+                         step([$class: 'NexusArtifactUploader', nexusVersion: NEXUS_VERSION,
+                            protocol: NEXUS_PROTOCOL, nexusUrl: NEXUS_URL, version: ARTIFACT_VERSION,
+                            repository: NEXUS_REPOSITORY, credentialsId: NEXUS_CREDENTIAL_ID,
+                            artifacts: [
+                                [artifactId: 'build', classifier: '', file: filePath, type: 'tar.gz']
+                            ]])
+                        
                     } else {
                         error "File 'build' does not exist."
                     }
@@ -69,19 +70,19 @@ pipeline {
             steps {
                 nexusArtifactUploader artifacts: [
                     [
-                        artifactId: 'cra-template-test-app', 
+                        artifactId: 'build', 
                         classifier: '', 
                         file: '/home/ec2-user/workspace/react-template-app/build.tar.gz', 
                         type: 'tar.gz'
                     ]
                 ], 
                         credentialsId: NEXUS_CREDENTIAL_ID, 
-                        groupId: 'cra-template-test-app', 
+                        groupId: 'react_app', 
                         nexusUrl: NEXUS_URL, 
                         nexusVersion: NEXUS_VERSION, 
                         protocol: NEXUS_PROTOCOL, 
                         repository: NEXUS_REPOSITORY, 
-                        version: '0.1.1'
+                        version: '0.0.1'
             }
         }
     }
