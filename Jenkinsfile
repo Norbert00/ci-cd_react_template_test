@@ -4,6 +4,12 @@ pipeline {
             image "node:slim"
         }
     }
+
+    parameters {
+        string(name: "NEXUS_REPOSITORY", defaultValue: "react-app", 'Enter a string:')
+        string(name: "PACKAGE_VERSION", defaultValue: "0.0.1", "Enter a package version in format e.g 0.0.2")
+    }
+
     environment {
         //This can be nexus3 or nexus2
         NEXUS_VERSION = "nexus3"
@@ -12,10 +18,11 @@ pipeline {
         // Where your Nexus is running
         NEXUS_URL = "nexus.n00dns.co"
         // Repository where we will upload the artifact
-        //NEXUS_REPOSITORY = "react_app_npm_group_repo"
-        NEXUS_REPOSITORY = "react-app"
+        NEXUS_REPOSITORY = "${NEXUS_REPOSITORY}"
         // Jenkins credential id to authenticate to Nexus OSS
         NEXUS_CREDENTIAL_ID = "jenkins_nexus"
+        // Version of package
+        PACKAGE_VERSION = "${PACKAGE_VERSION}"
         ARTIFACT_VERSION = "${BUILD_NUMBER}"
     }
     stages {
@@ -52,14 +59,6 @@ pipeline {
                         sh "tar -czvf build.tgz ${filePath}"
                         echo "File ${filePath} packed"
                         sh "ls -al"
-                        
-                        //  step([$class: 'NexusArtifactUploader', nexusVersion: NEXUS_VERSION,
-                        //     protocol: NEXUS_PROTOCOL, nexusUrl: NEXUS_URL, version: ARTIFACT_VERSION,
-                        //     repository: NEXUS_REPOSITORY, credentialsId: NEXUS_CREDENTIAL_ID,
-                        //     artifacts: [
-                        //         [artifactId: 'build', classifier: '', file: filePath, type: 'tar.gz']
-                        //     ]])
-                        
                     } else {
                         error "File 'build' does not exist."
                     }
@@ -82,7 +81,7 @@ pipeline {
                         nexusVersion: NEXUS_VERSION, 
                         protocol: NEXUS_PROTOCOL, 
                         repository: NEXUS_REPOSITORY, 
-                        version: '0.0.1'
+                        version: PACKAGE_VERSION
             }
         }
     }
@@ -92,19 +91,3 @@ pipeline {
         }
     }
 }
-
-        // stage ("Upload package to nexus") {
-        //     steps {
-        //         script {
-        //             nexusArtifactUploader(
-        //                     nexusVersion: NEXUS_VERSION,
-        //                     protocol: NEXUS_PROTOCOL,
-        //                     nexusUrl: NEXUS_URL,
-        //                     version: ARTIFACT_VERSION,
-        //                     repository: NEXUS_REPOSITORY,
-        //                     credentialsId: NEXUS_CREDENTIAL_ID,
-        //             )
-        //         }
-        //     }
-        // }
-        
