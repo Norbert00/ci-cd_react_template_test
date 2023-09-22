@@ -6,8 +6,8 @@ pipeline {
     }
 
     parameters {
-        string(name: "NEXUS_REPOSITORY", defaultValue: "react-app", 'Enter a string:')
-        string(name: "PACKAGE_VERSION", defaultValue: "0.0.1", "Enter a package version in format e.g 0.0.2")
+        string(name: "NEXUS_REPOSITORY", defaultValue: "react-app", description:'Enter a string:')
+        string(name: "PACKAGE_VERSION", defaultValue: "0.0.1", description:"Enter a package version in format e.g 0.0.2")
     }
 
     environment {
