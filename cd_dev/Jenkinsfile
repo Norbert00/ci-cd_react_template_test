@@ -1,5 +1,21 @@
 pipeline {
      agent any
+
+    environment {
+        AWS_REGION = "eu-central-1"
+        
+        AWS_CREDENTIALS = "jenkins-aws"
+        
+        BUCKET_NAME = "www-bucket-test"
+        // Repository where we will upload the artifact
+        NEXUS_REPOSITORY = "${NEXUS_REPOSITORY}"
+        // Jenkins credential id to authenticate to Nexus OSS
+        NEXUS_CREDENTIAL_ID = "jenkins_nexus"
+        // Version of package
+        PACKAGE_VERSION = "${PACKAGE_VERSION}"
+        ARTIFACT_VERSION = "${BUILD_NUMBER}"
+    }
+
      stages {
          stage('Build') {
              steps {
@@ -12,9 +28,9 @@ pipeline {
          }      
          stage('Upload to AWS') {
               steps {
-                  withAWS(region:'eu-central-1',credentials:'jenkins-aws') {
+                  withAWS(region: "${AWS_REGION}",credentials:"${AWS_CREDENTIALS}") {
                   sh 'echo "Uploading content with AWS creds"'
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'README.md', bucket:'www-bucket-test')
+                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'README.md', bucket:"${BUCKET_NAME}")
                   }
               }
          }
