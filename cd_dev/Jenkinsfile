@@ -14,7 +14,7 @@ pipeline {
         AWS_REGION = "eu-central-1"
         AWS_CREDENTIALS = "jenkins-aws"
         BUCKET_NAME = "www-bucket-test"
-        BUCKET_ACL = "PublicRead'"
+        //BUCKET_ACL = "PublicRead'"
 
         NEXUS_VERSION = "nexus3"
         // This can be http or https
@@ -93,7 +93,7 @@ pipeline {
               steps {
                   withAWS(region: "${AWS_REGION}",credentials:"${AWS_CREDENTIALS}") {
                   sh 'echo "Uploading content with AWS creds"'
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'/build/*', bucket:"${BUCKET_NAME}", acl:"${BUCKET_ACL}")
+                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'/build/*', bucket:"${BUCKET_NAME}")
                   }
               }
          }
