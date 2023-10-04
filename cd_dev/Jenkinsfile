@@ -15,7 +15,7 @@ pipeline {
         // ACL of the uploaded files public or not
         BUCKET_ACL = "PublicRead"
         // Path to files to be uploaded
-        PATH_FILES_TO_UPLOAD = "${env.WORKSPACE}"
+        PATH_FILES_TO_UPLOAD = "${env.WORKSPACE}/react-app-${VERSION}"
 
         VERSION = "${params.VERSION}"
         // This can be http or https
