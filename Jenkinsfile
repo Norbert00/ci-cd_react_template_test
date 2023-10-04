@@ -22,7 +22,7 @@ pipeline {
         // Jenkins credential id to authenticate to Nexus OSS
         NEXUS_CREDENTIAL_ID = "jenkins_nexus"
         // Version of package
-        // PACKAGE_VERSION = "${PACKAGE_VERSION}"
+        PACKAGE_JSON_VERSION = ''
         // ARTIFACT_VERSION = "${BUILD_NUMBER}"
     }
     stages {
@@ -30,8 +30,8 @@ pipeline {
          steps {
             script {
                 def packageJSON = readJSON file: 'package.json'
-                def packageJSONVersion = packageJSON.version
-                echo "${packageJSONVersion}"
+                PACKAGE_JSON_VERSION = packageJSON.version
+                echo "Package JSON Version: ${PACKAGE_JSON_VERSION}"
             }
          }
       }
@@ -90,7 +90,7 @@ pipeline {
                         nexusVersion: NEXUS_VERSION, 
                         protocol: NEXUS_PROTOCOL, 
                         repository: NEXUS_REPOSITORY, 
-                        version: "${packageJSONVersion}"
+                        version: "${PACKAGE_JSON_VERSION}"
             }
         }
     }
