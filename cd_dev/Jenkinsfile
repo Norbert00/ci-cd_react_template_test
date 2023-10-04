@@ -29,8 +29,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'jenkins_nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh "curl -u $USERNAME:$PASSWORD -O '${NEXUS_PROTOCOL}://${NEXUS_URL}/repository/react-app/jenkins/react-app/0.0.1/react-app-0.0.1.tgz'"
                         sh "tar -xvzf react-app-0.0.1.tgz" 
-                        sh "cd ${env.WORKSPACE}/${BUILD_PATH}" 
-                        sh "ls -al "
+                        echo "Fils extracted"
                     }
                 }
             }
