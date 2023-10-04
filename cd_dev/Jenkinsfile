@@ -33,14 +33,7 @@ pipeline {
               steps {
                   withAWS(region: "${AWS_REGION}",credentials:"${AWS_CREDENTIALS}") {
                   sh 'echo "Uploading content with AWS creds"'
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/index.html", bucket:"${BUCKET_NAME}")
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/robots.txt", bucket:"${BUCKET_NAME}")
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/manifest.json", bucket:"${BUCKET_NAME}")
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/logo512.png", bucket:"${BUCKET_NAME}")
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/logo192.png", bucket:"${BUCKET_NAME}")
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/favicon.ico", bucket:"${BUCKET_NAME}")
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/asset-manifest.json", bucket:"${BUCKET_NAME}")
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/static", bucket:"${BUCKET_NAME}")
+                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/", bucket:"${BUCKET_NAME}")
                   }
               }
          }
