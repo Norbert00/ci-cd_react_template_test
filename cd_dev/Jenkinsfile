@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    parameters {
+       string(name: "VERSION", defaultValue: "", description:'Enter a string with name of PACKAGE_JSON_VERSION:')
+    }
+
     environment {
         // Bucket regions
         AWS_REGION = "eu-central-1"
@@ -13,7 +17,7 @@ pipeline {
         // Path to files to be uploaded
         PATH_FILES_TO_UPLOAD = "home/ec2-user/workspace/react_app/build/"
 
-        PACKAGE_JSON_VERSION = "${params.PACKAGE_JSON_VERSION}"
+        VERSION = "${params.VERSION}"
         // This can be http or https
         NEXUS_PROTOCOL = "https"
         // Where your Nexus is running
@@ -28,8 +32,8 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'jenkins_nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh "curl -u $USERNAME:$PASSWORD -O '${NEXUS_PROTOCOL}://${NEXUS_URL}/repository/react-app/jenkins/react-app/${PACKAGE_JSON_VERSION}/react-app-${PACKAGE_JSON_VERSION}.tgz'"
-                        sh "tar -xvzf react-app-${PACKAGE_JSON_VERSION}.tgz" 
+                        sh "curl -u $USERNAME:$PASSWORD -O '${NEXUS_PROTOCOL}://${NEXUS_URL}/repository/react-app/jenkins/react-app/${VERSION}/react-app-${VERSION}.tgz'"
+                        sh "tar -xvzf react-app-${VERSION}.tgz" 
                         echo "Fils extracted"
                     }
                 }
