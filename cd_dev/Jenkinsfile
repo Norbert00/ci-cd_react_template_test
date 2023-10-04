@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+
+    environment {
+        // Bucket regions
+        AWS_REGION = "eu-central-1"
+        // Jenkins credential to login to aws account
+        AWS_CREDENTIALS = "jenkins-aws"
+        // Name of the bucket on aws
+        BUCKET_NAME = "www-bucket-test"
+        // ACL of the uploaded files public or not
+        BUCKET_ACL = "PublicRead"
+        // Path to files to be uploaded
+        PATH_FILES_TO_UPLOAD = "home/ec2-user/workspace/react_app/build/"
+
+        PACKAGE_JSON_VERSION = "${params.PACKAGE_JSON_VERSION}"
+        // This can be http or https
+        NEXUS_PROTOCOL = "https"
+        // Where your Nexus is running
+        NEXUS_URL = "nexus.n00dns.co"
+        // Jenkins credential id to authenticate to Nexus OSS
+        NEXUS_CREDENTIAL_ID = credentials("jenkins_nexus")
+
+        
+    }
+    stages {
+        stage("Download artifact") {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'jenkins_nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh "curl -u $USERNAME:$PASSWORD -O '${NEXUS_PROTOCOL}://${NEXUS_URL}/repository/react-app/jenkins/react-app/${PACKAGE_JSON_VERSION}/react-app-${PACKAGE_JSON_VERSION}.tgz'"
+                        sh "tar -xvzf react-app-${PACKAGE_JSON_VERSION}.tgz" 
+                        echo "Fils extracted"
+                    }
+                }
+            }
+        }  
+        stage('Upload to AWS') {
+              steps {
+                  withAWS(region: "${AWS_REGION}",credentials:"${AWS_CREDENTIALS}") {
+                  sh 'echo "Uploading content with AWS creds"'
+                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"${PATH_FILES_TO_UPLOAD}", bucket:"${BUCKET_NAME}", acl: "${BUCKET_ACL}")
+                  }
+              }
+         }
+     }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
