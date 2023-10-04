@@ -27,9 +27,9 @@ pipeline {
         stage("Download artifact") {
             steps {
                 sh "curl -u ${NEXUS_CREDENTIAL_ID} -O '${NEXUS_PROTOCOL}://${NEXUS_URL}/repository/react-app/jenkins/react-app/0.0.1/react-app-0.0.1.tgz'"
-                sh "tar -xvzf react-app-0.0.1.tgz 
-                    cd ${BUILD_PATH} 
-                    ls -al "
+                sh "tar -xvzf react-app-0.0.1.tgz" 
+                sh "cd ${BUILD_PATH}" 
+                sh "ls -al "
 
             }
         }   
