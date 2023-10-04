@@ -26,11 +26,17 @@ pipeline {
     stages {
         stage("Download artifact") {
             steps {
-                sh "curl -u ${NEXUS_CREDENTIAL_ID}:${NEXUS_CREDENTIAL_ID} -O '${NEXUS_PROTOCOL}://${NEXUS_URL}/repository/react-app/jenkins/react-app/0.0.1/react-app-0.0.1.tgz'"
-                sh "tar -xvzf react-app-0.0.1.tgz" 
-                sh "cd ${BUILD_PATH}" 
-                sh "ls -al "
-
+                script {
+                    def nexusCredentials = NEXUS_CREDENTIAL_ID
+                    def credentialsId = nexusCredentials.id
+                    def credentialsUsername = nexusCredentials.username
+                    def credentialsPassword = nexusCredentials.password
+                    
+                    sh "curl -u ${credentialsUsername}:${credentialsPassword} -O '${NEXUS_PROTOCOL}://${NEXUS_URL}/repository/react-app/jenkins/react-app/0.0.1/react-app-0.0.1.tgz'"
+                    sh "tar -xvzf react-app-0.0.1.tgz" 
+                    sh "cd ${BUILD_PATH}" 
+                    sh "ls -al "
+                }
             }
         }   
         // stage('Upload to AWS') {
@@ -42,4 +48,9 @@ pipeline {
         //       }
         //  }
      }
+    post {
+        always {
+            cleanWs()
+        }
+    }
 }
