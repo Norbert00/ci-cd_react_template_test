@@ -13,6 +13,7 @@ pipeline {
         // Path to files to be uploaded
         PATH_FILES_TO_UPLOAD = "home/ec2-user/workspace/react_app/build/"
 
+        PACKAGE_JSON_VERSION = "${params.PACKAGE_JSON_VERSION}"
         // This can be http or https
         NEXUS_PROTOCOL = "https"
         // Where your Nexus is running
@@ -27,8 +28,8 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'jenkins_nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh "curl -u $USERNAME:$PASSWORD -O '${NEXUS_PROTOCOL}://${NEXUS_URL}/repository/react-app/jenkins/react-app/0.0.1/react-app-0.0.1.tgz'"
-                        sh "tar -xvzf react-app-0.0.1.tgz" 
+                        sh "curl -u $USERNAME:$PASSWORD -O '${NEXUS_PROTOCOL}://${NEXUS_URL}/repository/react-app/jenkins/react-app/${PACKAGE_JSON_VERSION}/react-app-${PACKAGE_JSON_VERSION}.tgz'"
+                        sh "tar -xvzf react-app-${PACKAGE_JSON_VERSION}.tgz" 
                         echo "Fils extracted"
                     }
                 }
