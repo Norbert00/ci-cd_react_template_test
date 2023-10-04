@@ -4,11 +4,6 @@ pipeline {
             image "node:slim"
         }
     }
-
-    parameters {
-        string(name: "NEXUS_REPOSITORY", defaultValue: "react-app", description:'Enter a string:')
-    }
-
     environment {
         //This can be nexus3 or nexus2
         NEXUS_VERSION = "nexus3"
@@ -17,7 +12,7 @@ pipeline {
         // Where your Nexus is running
         NEXUS_URL = "nexus.n00dns.co"
         // Repository where we will upload the artifact
-        NEXUS_REPOSITORY = "${NEXUS_REPOSITORY}"
+        NEXUS_REPOSITORY = "react-app"
         // Jenkins credential id to authenticate to Nexus OSS
         NEXUS_CREDENTIAL_ID = "jenkins_nexus"
         // Version of package
@@ -59,7 +54,6 @@ pipeline {
                 script {
                     // Define the file path you want to check
                     def filePath = "${env.WORKSPACE}/build"
-
                     // Use the test command to check if the file exists
                     if (fileExists(filePath)) {
                         echo "File 'build' exists."
