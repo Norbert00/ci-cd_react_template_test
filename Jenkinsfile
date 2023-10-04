@@ -72,7 +72,7 @@ pipeline {
                     [
                         artifactId: 'react-app', 
                         classifier: '', 
-                        file: "${env.WORKSPACE}/build.tgz", 
+                        file: "${env.WORKSPACE}/build/build.tgz", 
                         type: 'tgz'
                     ]
                 ], 
