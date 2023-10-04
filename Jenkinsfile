@@ -85,6 +85,11 @@ pipeline {
                         version: "${PACKAGE_JSON_VERSION}"
             }
         }
+        stage("Triger cd_s3_bucket_upload job") {
+            steps {
+                build job: 'cd_s3_bucket_upload', parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: PACKAGE_JSON_VERSION]]
+            }
+        }
     }
     post {
         always {
