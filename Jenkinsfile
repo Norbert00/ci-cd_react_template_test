@@ -5,10 +5,9 @@ pipeline {
         }
     }
 
-    // parameters {
-    //     string(name: "NEXUS_REPOSITORY", defaultValue: "react-app", description:'Enter a string:')
-    //     string(name: "PACKAGE_VERSION", defaultValue: "0.0.1", description:"Enter a package version in format e.g 0.0.2")
-    // }
+    parameters {
+        string(name: "NEXUS_REPOSITORY", defaultValue: "react-app", description:'Enter a string:')
+    }
 
     environment {
         //This can be nexus3 or nexus2
@@ -23,7 +22,6 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "jenkins_nexus"
         // Version of package
         PACKAGE_JSON_VERSION = ''
-        // ARTIFACT_VERSION = "${BUILD_NUMBER}"
     }
     stages {
         stage('Read JSON') {
