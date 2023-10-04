@@ -27,17 +27,15 @@ pipeline {
         stage("Download artifact") {
             steps {
                 script {
-                    def nexusCredentials = credentials("${NEXUS_CREDENTIALS}")
-                    def credentialsUsername = nexusCredentials.username
-                    def credentialsPassword = nexusCredentials.password
-                    
-                    sh "curl -u ${credentialsUsername}:${credentialsPassword} -O '${NEXUS_PROTOCOL}://${NEXUS_URL}/repository/react-app/jenkins/react-app/0.0.1/react-app-0.0.1.tgz'"
-                    sh "tar -xvzf react-app-0.0.1.tgz" 
-                    sh "cd ${BUILD_PATH}" 
-                    sh "ls -al "
+                    withCredentials([usernamePassword(credentialsId: 'jenkins_nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh "curl -u $USERNAME:$PASSWORD -O '${NEXUS_PROTOCOL}://${NEXUS_URL}/repository/react-app/jenkins/react-app/0.0.1/react-app-0.0.1.tgz'"
+                        sh "tar -xvzf react-app-0.0.1.tgz" 
+                        sh "cd ${BUILD_PATH}" 
+                        sh "ls -al "
+                    }
                 }
             }
-        }   
+        }  
         // stage('Upload to AWS') {
         //       steps {
         //           withAWS(region: "${AWS_REGION}",credentials:"${AWS_CREDENTIALS}") {
