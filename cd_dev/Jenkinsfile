@@ -1,8 +1,6 @@
 pipeline {
     agent any
 
-    
-
     environment {
         AWS_REGION = "eu-central-1"
         AWS_CREDENTIALS = "jenkins-aws"
@@ -13,16 +11,11 @@ pipeline {
         NEXUS_PROTOCOL = "https"
         // Where your Nexus is running
         NEXUS_URL = "nexus.n00dns.co"
-        // Repository where we will upload the artifact
-        NEXUS_REPOSITORY = "${NEXUS_REPOSITORY}"
         // Jenkins credential id to authenticate to Nexus OSS
         NEXUS_CREDENTIAL_ID = credentials("jenkins_nexus")
-        // Version of package
-        //PACKAGE_VERSION = "${PACKAGE_VERSION}"
-        //ARTIFACT_VERSION = "${BUILD_NUMBER}"
+
         BUILD_PATH = "home/ec2-user/workspace/react_app/build"
     }
-
     stages {
         stage("Download artifact") {
             steps {
@@ -36,14 +29,14 @@ pipeline {
                 }
             }
         }  
-        // stage('Upload to AWS') {
-        //       steps {
-        //           withAWS(region: "${AWS_REGION}",credentials:"${AWS_CREDENTIALS}") {
-        //           sh 'echo "Uploading content with AWS creds"'
-        //               s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"README.md", bucket:"${BUCKET_NAME}")
-        //           }
-        //       }
-        //  }
+        stage('Upload to AWS') {
+              steps {
+                  withAWS(region: "${AWS_REGION}",credentials:"${AWS_CREDENTIALS}") {
+                  sh 'echo "Uploading content with AWS creds"'
+                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/index.html", bucket:"${BUCKET_NAME}")
+                  }
+              }
+         }
      }
     post {
         always {
