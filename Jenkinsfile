@@ -5,10 +5,10 @@ pipeline {
         }
     }
 
-    parameters {
-        string(name: "NEXUS_REPOSITORY", defaultValue: "react-app", description:'Enter a string:')
-        string(name: "PACKAGE_VERSION", defaultValue: "0.0.1", description:"Enter a package version in format e.g 0.0.2")
-    }
+    // parameters {
+    //     string(name: "NEXUS_REPOSITORY", defaultValue: "react-app", description:'Enter a string:')
+    //     string(name: "PACKAGE_VERSION", defaultValue: "0.0.1", description:"Enter a package version in format e.g 0.0.2")
+    // }
 
     environment {
         //This can be nexus3 or nexus2
@@ -22,10 +22,19 @@ pipeline {
         // Jenkins credential id to authenticate to Nexus OSS
         NEXUS_CREDENTIAL_ID = "jenkins_nexus"
         // Version of package
-        PACKAGE_VERSION = "${PACKAGE_VERSION}"
-        ARTIFACT_VERSION = "${BUILD_NUMBER}"
+        // PACKAGE_VERSION = "${PACKAGE_VERSION}"
+        // ARTIFACT_VERSION = "${BUILD_NUMBER}"
     }
     stages {
+        stage('Read JSON') {
+         steps {
+            script {
+                def packageJSON = readJSON file: 'package.json'
+                def packageJSONVersion = packageJSON.version
+                echo "${packageJSONVersion}"
+            }
+         }
+      }
         stage("Install dependencies") {
             steps {
                 script {
@@ -81,7 +90,7 @@ pipeline {
                         nexusVersion: NEXUS_VERSION, 
                         protocol: NEXUS_PROTOCOL, 
                         repository: NEXUS_REPOSITORY, 
-                        version: PACKAGE_VERSION
+                        version: "${packageJSONVersion}"
             }
         }
     }
