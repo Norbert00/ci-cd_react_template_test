@@ -33,7 +33,7 @@ pipeline {
               steps {
                   withAWS(region: "${AWS_REGION}",credentials:"${AWS_CREDENTIALS}") {
                   sh 'echo "Uploading content with AWS creds"'
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/", bucket:"${BUCKET_NAME}", acl: 'PublicRead)
+                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/", bucket:"${BUCKET_NAME}", acl: "PublicRead")
                   }
               }
          }
