@@ -16,7 +16,7 @@ pipeline {
         // Repository where we will upload the artifact
         NEXUS_REPOSITORY = "${NEXUS_REPOSITORY}"
         // Jenkins credential id to authenticate to Nexus OSS
-        NEXUS_CREDENTIAL_ID = "jenkins_nexus"
+        NEXUS_CREDENTIAL_ID = credentials("jenkins_nexus")
         // Version of package
         //PACKAGE_VERSION = "${PACKAGE_VERSION}"
         //ARTIFACT_VERSION = "${BUILD_NUMBER}"
@@ -27,7 +27,7 @@ pipeline {
         stage("Download artifact") {
             steps {
                 script {
-                    def nexusCredentials = "${NEXUS_CREDENTIAL_ID}"
+                    def nexusCredentials = credentials("${NEXUS_CREDENTIALS}")
                     def credentialsUsername = nexusCredentials.username
                     def credentialsPassword = nexusCredentials.password
                     
