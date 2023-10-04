@@ -57,7 +57,7 @@ pipeline {
                     // Use the test command to check if the file exists
                     if (fileExists(filePath)) {
                         echo "File 'build' exists."
-                        sh "tar -czvf build.tgz ${filePath}"
+                        sh "cd ${filePath}; tar -czvf build.tgz *"
                         echo "File ${filePath} packed"
                         sh "ls -al"
                     } else {
