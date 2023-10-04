@@ -15,7 +15,7 @@ pipeline {
         // ACL of the uploaded files public or not
         BUCKET_ACL = "PublicRead"
         // Path to files to be uploaded
-        PATH_FILES_TO_UPLOAD = "home/ec2-user/workspace/react_app/build/"
+        PATH_FILES_TO_UPLOAD = "${env.WORKSPACE}"
 
         VERSION = "${params.VERSION}"
         // This can be http or https
@@ -48,9 +48,9 @@ pipeline {
               }
          }
      }
-    post {
-        always {
-            cleanWs()
-        }
-    }
+    // post {
+    //     always {
+    //         cleanWs()
+    //     }
+    // }
 }
