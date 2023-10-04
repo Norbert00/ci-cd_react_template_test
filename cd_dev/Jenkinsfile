@@ -27,8 +27,7 @@ pipeline {
         stage("Download artifact") {
             steps {
                 script {
-                    def nexusCredentials = NEXUS_CREDENTIAL_ID
-                    def credentialsId = nexusCredentials.id
+                    def nexusCredentials = "${NEXUS_CREDENTIAL_ID}"
                     def credentialsUsername = nexusCredentials.username
                     def credentialsPassword = nexusCredentials.password
                     
