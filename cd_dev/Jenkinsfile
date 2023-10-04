@@ -2,10 +2,16 @@ pipeline {
     agent any
 
     environment {
+        // Bucket regions
         AWS_REGION = "eu-central-1"
+        // Jenkins credential to login to aws account
         AWS_CREDENTIALS = "jenkins-aws"
+        // Name of the bucket on aws
         BUCKET_NAME = "www-bucket-test"
-        //BUCKET_ACL = "PublicRead'"
+        // ACL of the uploaded files public or not
+        BUCKET_ACL = "PublicRead"
+        // Path to files to be uploaded
+        PATH_FILES_TO_UPLOAD = "home/ec2-user/workspace/react_app/build/"
 
         // This can be http or https
         NEXUS_PROTOCOL = "https"
@@ -14,7 +20,7 @@ pipeline {
         // Jenkins credential id to authenticate to Nexus OSS
         NEXUS_CREDENTIAL_ID = credentials("jenkins_nexus")
 
-        BUILD_PATH = "home/ec2-user/workspace/react_app/build"
+        
     }
     stages {
         stage("Download artifact") {
@@ -33,7 +39,7 @@ pipeline {
               steps {
                   withAWS(region: "${AWS_REGION}",credentials:"${AWS_CREDENTIALS}") {
                   sh 'echo "Uploading content with AWS creds"'
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"home/ec2-user/workspace/react_app/build/", bucket:"${BUCKET_NAME}", acl: "PublicRead")
+                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:"${PATH_FILES_TO_UPLOAD}", bucket:"${BUCKET_NAME}", acl: "${BUCKET_ACL}")
                   }
               }
          }
